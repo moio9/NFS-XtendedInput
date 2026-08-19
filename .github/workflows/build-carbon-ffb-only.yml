@@ -8,6 +8,12 @@ on:
     paths:
       - 'src/**'
       - '.github/workflows/build-carbon-ffb-only.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-carbon-ffb-only.yml'
 
 jobs:
   build-carbon:
