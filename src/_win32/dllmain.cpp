@@ -14,7 +14,7 @@
 #include "stdafx.h"
 #include "../Main.hpp"
 #ifdef GAME_CARBON
-#include "../CarbonRealRumble.hpp"
+#include "../CarbonRealRumbleV2.hpp"
 #endif
 
 BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
@@ -27,7 +27,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
     Init();
 
 #ifdef GAME_CARBON
-    CarbonRealRumble::Install();
+    CarbonRealRumbleV2::Install();
 #endif
   }
   return TRUE;
