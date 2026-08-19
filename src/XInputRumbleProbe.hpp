@@ -1,6 +1,7 @@
 #pragma once
 #ifdef GAME_CARBON
 #include <windows.h>
+#include <cstdarg>
 #include <cstdio>
 
 namespace XInputRumbleProbe {
@@ -20,7 +21,6 @@ static DWORD WINAPI Worker(LPVOID) {
   std::remove("NFS_XtendedInput_XInputRumbleProbe.log");
   Log("RumbleProbe: worker started");
 
-  // Let the game and the XInput proxy finish loading before probing.
   Sleep(1500);
 
   for (int attempt = 0; attempt < 50; ++attempt) {
