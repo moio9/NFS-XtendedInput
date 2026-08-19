@@ -1,0 +1,45 @@
+name: Build Carbon FFB-only
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/carbon-dinput-ffb-only
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-carbon-ffb-only.yml'
+
+jobs:
+  build-carbon:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Release-Carbon Win32
+        shell: cmd
+        run: >-
+          msbuild src\NFS_XtendedInput.vcxproj /m
+          /p:Configuration=Release-Carbon
+          /p:Platform=Win32
+          /p:PostBuildEventUseInBuild=false
+
+      - name: Verify ASI
+        shell: pwsh
+        run: |
+          if (!(Test-Path 'src/Release-Carbon/NFS_XtendedInput.asi')) {
+            throw 'NFS_XtendedInput.asi was not produced.'
+          }
+          Get-Item 'src/Release-Carbon/NFS_XtendedInput.asi' | Format-List FullName,Length,LastWriteTime
+
+      - name: Upload Carbon ASI
+        uses: actions/upload-artifact@v4
+        with:
+          name: NFS-XtendedInput-Carbon-FFBOnly
+          path: src/Release-Carbon/NFS_XtendedInput.asi
+          if-no-files-found: error
