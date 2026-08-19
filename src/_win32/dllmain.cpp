@@ -15,6 +15,7 @@
 #include "../Main.hpp"
 #ifdef GAME_CARBON
 #include "../XInputRumbleProbe.hpp"
+#include "../InputDiagnostics.hpp"
 #endif
 
 BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
@@ -28,6 +29,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
 
 #ifdef GAME_CARBON
     XInputRumbleProbe::Start();
+    InputDiagnostics::Start();
 #endif
   }
   return TRUE;
