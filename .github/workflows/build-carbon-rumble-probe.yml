@@ -8,6 +8,12 @@ on:
     paths:
       - 'src/**'
       - '.github/workflows/build-carbon-rumble-probe.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-carbon-rumble-probe.yml'
 
 jobs:
   build-carbon:
