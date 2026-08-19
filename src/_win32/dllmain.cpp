@@ -13,6 +13,10 @@
 
 #include "stdafx.h"
 #include "../Main.hpp"
+#ifdef GAME_CARBON
+#include "../XInputRumbleProbe.hpp"
+#include "../InputDiagnostics.hpp"
+#endif
 
 BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
   if (reason == DLL_PROCESS_ATTACH) {
@@ -22,6 +26,11 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
 #endif
 
     Init();
+
+#ifdef GAME_CARBON
+    XInputRumbleProbe::Start();
+    InputDiagnostics::Start();
+#endif
   }
   return TRUE;
 }
