@@ -8,6 +8,12 @@ on:
     paths:
       - 'src/**'
       - '.github/workflows/build-mw-real-rumble.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-mw-real-rumble.yml'
 
 jobs:
   build-mw:
