@@ -38,3 +38,5 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
   }
   return TRUE;
 }
+
+// MW rumble CI retrigger marker.
