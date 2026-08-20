@@ -7,12 +7,14 @@ on:
       - agent/mw-real-rumble
     paths:
       - 'src/**'
+      - 'data/**'
       - '.github/workflows/build-mw-real-rumble.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'src/**'
+      - 'data/**'
       - '.github/workflows/build-mw-real-rumble.yml'
 
 jobs:
@@ -43,9 +45,31 @@ jobs:
           }
           Get-Item 'src/Release-MW/NFS_XtendedInput.asi' | Format-List FullName,Length,LastWriteTime
 
-      - name: Upload MW ASI
+      - name: Build full MW package
+        shell: cmd
+        run: call data\post-build\HasTPK-MW.bat Release MW
+
+      - name: Verify package
+        shell: pwsh
+        run: |
+          $pkg = '.Release Packages/Release-MW'
+          $required = @(
+            "$pkg/scripts/NFS_XtendedInput.asi",
+            "$pkg/scripts/NFS_XtendedInput.ini",
+            "$pkg/scripts/NFS_XtendedInput.default.ini",
+            "$pkg/scripts/nfs_cursor.cur",
+            "$pkg/GLOBAL/XtendedInputButtons.tpk",
+            "$pkg/EventReference.txt",
+            "$pkg/README.md"
+          )
+          foreach ($file in $required) {
+            if (!(Test-Path $file)) { throw "Missing package file: $file" }
+          }
+          Get-ChildItem $pkg -Recurse | Select-Object FullName,Length
+
+      - name: Upload full MW package
         uses: actions/upload-artifact@v4
         with:
-          name: NFS-XtendedInput-MW-RealRumble
-          path: src/Release-MW/NFS_XtendedInput.asi
+          name: NFS-XtendedInput-MW-RealRumble-Full-Package
+          path: '.Release Packages/Release-MW/**'
           if-no-files-found: error
