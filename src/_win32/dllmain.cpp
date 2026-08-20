@@ -13,6 +13,9 @@
 
 #include "stdafx.h"
 #include "../Main.hpp"
+#ifdef GAME_MW
+#include "../MWRealRumble.hpp"
+#endif
 #ifdef GAME_CARBON
 #include "../CarbonRealRumbleV3.hpp"
 #endif
@@ -26,6 +29,9 @@ BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
 
     Init();
 
+#ifdef GAME_MW
+    MWRealRumble::Install();
+#endif
 #ifdef GAME_CARBON
     CarbonRealRumbleV3::Install();
 #endif
